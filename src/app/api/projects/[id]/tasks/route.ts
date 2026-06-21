@@ -54,7 +54,7 @@ export async function POST(req: NextRequest, { params }: Params) {
   const membership = await getProjectMembership(user.id, projectId);
   if (!membership) return forbidden("you are not a member of this project");
   if (!canEditTasks(membership.role)) {
-    return forbidden("viewers cannot create tasks");
+    return unauthorized();
   }
 
   const body = await req.json().catch(() => null);
