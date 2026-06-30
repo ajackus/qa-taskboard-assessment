@@ -16,17 +16,18 @@ async function login(email: string): Promise<string> {
   return data.token;
 }
 
-let tokens: { meera: string; arjun: string; dev: string };
+let tokens: { meera: string; arjun: string; dev: string; lina: string };
 let projectId: string;
 let taskId: string;
 
 beforeAll(async () => {
-  const [meera, arjun, dev] = await Promise.all([
+  const [meera, arjun, dev, lina] = await Promise.all([
     login("meera@taskboard.dev"),
     login("arjun@taskboard.dev"),
     login("dev@example.com"),
+    login("lina@example.com"),
   ]);
-  tokens = { meera, arjun, dev };
+  tokens = { meera, arjun, dev, lina };
 
   const projectsRes = await fetch(`${BASE_URL}/api/projects`, {
     headers: { Authorization: `Bearer ${meera}` },
@@ -81,5 +82,18 @@ describe("task access control", () => {
       body: JSON.stringify({ title: "member create — baseline" }),
     });
     expect(res.status).toBe(201);
+  });
+
+  // Test D
+  it("a non-member cannot update a task", async () => {
+    const res = await fetch(`${BASE_URL}/api/tasks/${taskId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${tokens.lina}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: "non-member update attempt" }),
+    });
+    expect(res.status).toBe(403);
   });
 });
