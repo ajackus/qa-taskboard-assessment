@@ -96,3 +96,11 @@ curl -H "Authorization: Bearer <token>" http://localhost:3000/api/projects
 - Tailwind CSS 3
 - bcryptjs + jsonwebtoken
 - Vitest 2 (testing)
+
+## Screen Recording
+
+[Screen Recording (Google Drive)](https://drive.google.com/file/d/1k6BzDoGV3rJAmb12uBuB1mZCOItNAm-V/view?usp=sharing)
+*(Note: The narration audio level is slightly low; please use headphones or increase the volume if needed.)*
+
+
+
